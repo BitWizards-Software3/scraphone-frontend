@@ -34,7 +34,8 @@ class _ScrapeProductsWidgetState extends State<ScrapeProductsWidget> {
     });
 
     final searchTerm = _searchTermController.text;
-    final apiUrl = Uri.parse('http://127.0.0.1:8000/scrape_aliexpress/');
+    //En caso de querer hacerlo móvil, poner la dirección: http://10.0.2.2:8000/scrape_aliexpress/
+    final apiUrl = Uri.parse('http://127.0.0.1:8000/scrape_both/');
 
     final response = await http.post(
       apiUrl,
@@ -101,9 +102,12 @@ class _ScrapeProductsWidgetState extends State<ScrapeProductsWidget> {
                     // Usamos InkWell para detectar el toque
                     onTap: () => _openLink(productLink), // Abrir el enlace
                     child: ListTile(
-                      title: Text(_productData[index]['Product']),
-                      subtitle: Text('Price: ${_productData[index]['Price']}'),
-                    ),
+                        title: Text(
+                            'Producto : ${_productData[index]['Product']}'),
+                        subtitle: Text(
+                            'Precio en COP: ${_productData[index]['Price']}'),
+                        trailing: Text(
+                            'Comprar en: ${obtenerPagina(_productData[index]['Link'])}')),
                   );
                 },
               ),
@@ -112,5 +116,13 @@ class _ScrapeProductsWidgetState extends State<ScrapeProductsWidget> {
         ),
       ),
     );
+  }
+}
+
+obtenerPagina(String link) {
+  if (link.contains("alibaba")) {
+    return "Alibaba";
+  } else if (link.contains("aliexpress")) {
+    return "Aliexpress";
   }
 }
