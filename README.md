@@ -3,5 +3,5 @@ Repositorio de la parte visual (frontend) para la aplicación movil para el nego
 
 **¡Atención!**
 
-*Para la primera iteración*, todo el código se encuentra en la **rama Feature**, pues no se le hicieron sus respectivas pruebas, así que se decidió no subirlo a la **rama Develop** (que es donde se supone están las unidades testeadas y funcionales).
+*Para la primera iteración*, todo el código se encuentra en la **rama Feature**, pues no se le hicieron pruebas exhaustivas, así que se decidió no subirlo a la **rama Develop** (que es donde se supone están las unidades testeadas y funcionales).
 
