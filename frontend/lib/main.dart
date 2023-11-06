@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'scrapping.dart';
+import 'package:frontend/src/ui/screens/scrape_products_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyHomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => ScrapeProductsWidget(),
+                    builder: (context) => ScrapeProductsScreen(),
                   ),
                 );
               },
