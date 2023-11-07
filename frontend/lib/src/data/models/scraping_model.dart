@@ -1,4 +1,4 @@
-// product_model.dart
+// scrape_product_model.dart
 class Product {
   final String product;
   final String price;

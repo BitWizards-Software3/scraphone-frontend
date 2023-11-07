@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/ui/screens/scrape_products_screen.dart';
+import 'package:frontend/src/ui/screens/products_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,6 +45,16 @@ class MyHomePage extends StatelessWidget {
                 );
               },
               child: Text('Web Scraping'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ProductForm(),
+                  ),
+                );
+              },
+              child: Text('Add Product'),
             ),
           ],
         ),
