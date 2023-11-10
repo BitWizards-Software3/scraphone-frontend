@@ -4,7 +4,7 @@ import 'dart:convert';
 
 class ProductRepository {
   Future<List<dynamic>> fetchProducts(String searchTerm) async {
-    final apiUrl = Uri.parse('http://127.0.0.1:8000/scrape_alibaba/');
+    final apiUrl = Uri.parse('http://192.168.20.6:8000/scrape_alibaba/');
 
     final response = await http.post(
       apiUrl,
