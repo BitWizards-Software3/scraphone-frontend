@@ -32,29 +32,43 @@ class _ScrapeProductsScreenState extends State<ScrapeProductsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Scrape Products'),
+        backgroundColor: Colors.teal, // Set the app bar color
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
               controller: _searchTermController,
               decoration: InputDecoration(labelText: 'Término de búsqueda'),
             ),
+            SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _isLoading ? null : _fetchProductData,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal, // Set the button color
+                onPrimary: Colors.white, // Set the text color
+              ),
               child: Text('Buscar'),
             ),
-            _isLoading ? CircularProgressIndicator() : SizedBox(),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _productData.length,
-                itemBuilder: (context, index) {
-                  print("HOLAAAAAAA :D ${_productData[index]}");
-                  return ProductCardWidget(_productData[index]);
-                },
-              ),
-            ),
+            SizedBox(height: 16.0),
+            _isLoading
+                ? CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.teal),
+                  )
+                : Expanded(
+                    child: _productData.isEmpty
+                        ? Center(
+                            child: Text('No se encontraron productos.'),
+                          )
+                        : ListView.builder(
+                            itemCount: _productData.length,
+                            itemBuilder: (context, index) {
+                              return ProductCardWidget(_productData[index]);
+                            },
+                          ),
+                  ),
           ],
         ),
       ),

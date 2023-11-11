@@ -36,6 +36,7 @@ class _ProductFormState extends State<ProductForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Crear producto'),
+        backgroundColor: Colors.teal, // Set the app bar color
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
