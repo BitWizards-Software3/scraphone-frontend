@@ -56,7 +56,7 @@ Future<void> updateProduct(String productId, GetProductModel updatedProduct) asy
 }
 
 
-    Future<List<GetProductModel>> fetchProducts() async {
+  Future<List<GetProductModel>> fetchProducts() async {
     final apiUrl = Uri.parse('http://127.0.0.1:8000/products');
     final response = await http.get(
       apiUrl,
