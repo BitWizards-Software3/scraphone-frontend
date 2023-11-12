@@ -8,7 +8,7 @@ class GetProductsScreen extends StatefulWidget {
 }
 
 class _GetProductsScreenState extends State<GetProductsScreen> {
-  final ProductRepository _productRepository = ProductRepository();
+  final ShowProductRepository _productRepository = ShowProductRepository();
   List<dynamic> _productData = [];
   bool _isLoading = false;
   TextEditingController _searchController = TextEditingController();

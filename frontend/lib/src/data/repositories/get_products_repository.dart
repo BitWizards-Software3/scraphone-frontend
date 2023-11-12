@@ -2,7 +2,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class ProductRepository {
+class ShowProductRepository {
   Future<List<dynamic>> fetchProducts() async {
     final apiUrl = Uri.parse('http://127.0.0.1:8000/products');
     final response = await http.get(
