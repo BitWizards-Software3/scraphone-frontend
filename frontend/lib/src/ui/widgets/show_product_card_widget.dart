@@ -64,6 +64,7 @@ class _ShowProductCardWidgetState extends State<ShowProductCardWidget> {
                 }),
                 SizedBox(width: 8.0),
                 buildIcon(Icons.delete, Colors.red, () {
+                  _showDeleteDialog(context);
                   // Lógica para eliminar el producto
                 }),
               ],
@@ -139,62 +140,108 @@ class _ShowProductCardWidgetState extends State<ShowProductCardWidget> {
     );
   }
 
-void _updateProduct() async {
-  // Validar que el campo de stock sea un valor no negativo
-  final stockValue = int.tryParse(_stockController.text) ?? 0;
-  if (stockValue < 0) {
-    // Muestra una alerta de error y no continúes con la actualización
-    _showErrorAlert(context, 'Error: El stock no puede ser un valor negativo');
-    return;
+  Future<void> _showDeleteDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Eliminar Producto'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Text('¿Estás seguro de que quieres eliminar este producto?'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteProduct();
+                Navigator.of(context).pop();
+              },
+              child: Text('Eliminar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  final updatedProduct = GetProductModel(
-    id: widget.productData.id,
-    name: _nameController.text,
-    description: _descriptionController.text,
-    shelf: _shelfController.text,
-    stock: stockValue,
-    stock_notification: widget.productData.stock_notification ?? false,
-    existence_notification: widget.productData.existence_notification ?? false,
-  );
+  void _updateProduct() async {
+    // Validar que el campo de stock sea un valor no negativo
+    final stockValue = int.tryParse(_stockController.text) ?? 0;
+    if (stockValue < 0) {
+      // Muestra una alerta de error y no continúes con la actualización
+      _showErrorAlert(
+          context, 'Error: El stock no puede ser un valor negativo');
+      return;
+    }
 
-  // Imprime los datos antes de enviar la solicitud
-  print('Datos que estás enviando:');
-  print(updatedProduct.toJson());
+    final updatedProduct = GetProductModel(
+      id: widget.productData.id,
+      name: _nameController.text,
+      description: _descriptionController.text,
+      shelf: _shelfController.text,
+      stock: stockValue,
+      stock_notification: widget.productData.stock_notification ?? false,
+      existence_notification:
+          widget.productData.existence_notification ?? false,
+    );
+    // Imprime los datos antes de enviar la solicitud
+    print('Datos que estás enviando:');
+    print(updatedProduct.toJson());
 
-  // Envia la solicitud al repositorio y espera la respuesta
-  final response = await widget.productRepository.updateProduct(
-    widget.productData.id.toString(),
-    updatedProduct,
-  );
+    // Envia la solicitud al repositorio y espera la respuesta
+    final response = await widget.productRepository.updateProduct(
+      widget.productData.id.toString(),
+      updatedProduct,
+    );
 
-  // Imprime la respuesta del servidor
-  print('Respuesta del servidor:');
+    // Imprime la respuesta del servidor
+    print('Respuesta del servidor:');
 
-  // Puedes realizar acciones adicionales después de la actualización
-  widget.onUpdate(); // Llama a la función de actualización externa
-}
+    // Puedes realizar acciones adicionales después de la actualización
+    widget.onUpdate(); // Llama a la función de actualización externa
+  }
 
-void _showErrorAlert(BuildContext context, String message) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
-}
+  void _deleteProduct() async {
+    // Envia la solicitud al repositorio y espera la respuesta
+    final response = await widget.productRepository.deleteProduct(
+      widget.productData.id.toString(),
+    );
 
+    // Imprime la respuesta del servidor
+    print('Respuesta del servidor:');
+
+    // Puedes realizar acciones adicionales después de la actualización
+    widget.onUpdate(); // Llama a la función de actualización externa
+  }
+
+  void _showErrorAlert(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
