@@ -1,5 +1,7 @@
+// get_products_screen.dart
 import 'package:flutter/material.dart';
-import 'package:frontend/src/data/repositories/get_products_repository.dart';
+import 'package:frontend/src/data/models/show_product_model.dart';
+import 'package:frontend/src/data/repositories/product_repository.dart';
 import 'package:frontend/src/ui/widgets/show_product_card_widget.dart';
 
 class GetProductsScreen extends StatefulWidget {
@@ -8,8 +10,8 @@ class GetProductsScreen extends StatefulWidget {
 }
 
 class _GetProductsScreenState extends State<GetProductsScreen> {
-  final ShowProductRepository _productRepository = ShowProductRepository();
-  List<dynamic> _productData = [];
+  final ProductRepository _showProductRepository = ProductRepository();
+  List<GetProductModel> _productData = [];
   bool _isLoading = false;
   TextEditingController _searchController = TextEditingController();
 
@@ -18,7 +20,7 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
       _isLoading = true;
     });
 
-    final products = await _productRepository.fetchProducts();
+    final products = await _showProductRepository.fetchProducts();
 
     setState(() {
       _productData = products;
@@ -27,9 +29,8 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
   }
 
   void _searchProducts(String query) {
-    // Filtrar productos por nombre
-    List<dynamic> filteredProducts = _productData.where((product) {
-      return product['name'].toLowerCase().contains(query.toLowerCase());
+    List<GetProductModel> filteredProducts = _productData.where((product) {
+      return product.name.toLowerCase().contains(query.toLowerCase());
     }).toList();
 
     setState(() {
@@ -85,7 +86,11 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
                         : ListView.builder(
                             itemCount: _productData.length,
                             itemBuilder: (context, index) {
-                              return ProductCardWidget(_productData[index]);
+                              return ShowProductCardWidget(
+                                productRepository: ProductRepository(), // Reemplaza ProductRepository con tu repositorio real
+                                productData: _productData[index],
+                                onUpdate: _fetchProductData,
+                              );
                             },
                           ),
                   ),

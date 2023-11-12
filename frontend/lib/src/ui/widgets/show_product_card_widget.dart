@@ -1,22 +1,24 @@
+// show_product_card_widget.dart
 import 'package:flutter/material.dart';
-import 'package:frontend/src/data/models/product_model.dart';
 import 'package:frontend/src/data/models/show_product_model.dart';
 import 'package:frontend/src/data/repositories/product_repository.dart';
 
-class ProductCardWidget extends StatefulWidget {
+class ShowProductCardWidget extends StatefulWidget {
   final ProductRepository productRepository;
-  final Map<String, dynamic> productData;
+  final GetProductModel productData;
+  final VoidCallback onUpdate;
 
-  ProductCardWidget({
+  ShowProductCardWidget({
     required this.productRepository,
-    required this.productData, required Future<void> Function() onUpdate,
+    required this.productData,
+    required this.onUpdate,
   });
 
   @override
-  _ProductCardWidgetState createState() => _ProductCardWidgetState();
+  _ShowProductCardWidgetState createState() => _ShowProductCardWidgetState();
 }
 
-class _ProductCardWidgetState extends State<ProductCardWidget> {
+class _ShowProductCardWidgetState extends State<ShowProductCardWidget> {
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _shelfController;
@@ -25,11 +27,12 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: widget.productData['name']);
+    _nameController = TextEditingController(text: widget.productData.name);
     _descriptionController =
-        TextEditingController(text: widget.productData['description']);
-    _shelfController = TextEditingController(text: widget.productData['shelf']);
-    _stockController = TextEditingController(text: widget.productData['stock'].toString());
+        TextEditingController(text: widget.productData.description);
+    _shelfController = TextEditingController(text: widget.productData.shelf);
+    _stockController =
+        TextEditingController(text: widget.productData.stock?.toString() ?? '');
   }
 
   @override
@@ -136,22 +139,62 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
     );
   }
 
-  void _updateProduct() async {
-    final updatedProduct = GetProductModel(
-      id: widget.productData['id'],
-      name: _nameController.text,
-      description: _descriptionController.text,
-      shelf: _shelfController.text,
-      stock: int.tryParse(_stockController.text) ?? 0,
-      stock_notification: widget.productData['stock_notification'],
-      existence_notification: widget.productData['existence_notification'],
-          );
-
-    await widget.productRepository.updateProduct(widget.productData['id'], updatedProduct);
-
-    // Puedes realizar acciones adicionales después de la actualización
-    // ...
+void _updateProduct() async {
+  // Validar que el campo de stock sea un valor no negativo
+  final stockValue = int.tryParse(_stockController.text) ?? 0;
+  if (stockValue < 0) {
+    // Muestra una alerta de error y no continúes con la actualización
+    _showErrorAlert(context, 'Error: El stock no puede ser un valor negativo');
+    return;
   }
+
+  final updatedProduct = GetProductModel(
+    id: widget.productData.id,
+    name: _nameController.text,
+    description: _descriptionController.text,
+    shelf: _shelfController.text,
+    stock: stockValue,
+    stock_notification: widget.productData.stock_notification ?? false,
+    existence_notification: widget.productData.existence_notification ?? false,
+  );
+
+  // Imprime los datos antes de enviar la solicitud
+  print('Datos que estás enviando:');
+  print(updatedProduct.toJson());
+
+  // Envia la solicitud al repositorio y espera la respuesta
+  final response = await widget.productRepository.updateProduct(
+    widget.productData.id.toString(),
+    updatedProduct,
+  );
+
+  // Imprime la respuesta del servidor
+  print('Respuesta del servidor:');
+
+  // Puedes realizar acciones adicionales después de la actualización
+  widget.onUpdate(); // Llama a la función de actualización externa
+}
+
+void _showErrorAlert(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
   @override
   void dispose() {

@@ -31,6 +31,6 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel { name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
+    return 'ProductModel {name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
   }
 }
