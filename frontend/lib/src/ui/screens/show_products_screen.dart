@@ -11,6 +11,7 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
   final ProductRepository _productRepository = ProductRepository();
   List<dynamic> _productData = [];
   bool _isLoading = false;
+  TextEditingController _searchController = TextEditingController();
 
   Future<void> _fetchProductData() async {
     setState(() {
@@ -25,12 +26,23 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
     });
   }
 
+  void _searchProducts(String query) {
+    // Filtrar productos por nombre
+    List<dynamic> filteredProducts = _productData.where((product) {
+      return product['name'].toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    setState(() {
+      _productData = filteredProducts;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Scrape Products'),
-        backgroundColor: Colors.teal, // Set the app bar color
+        title: Text('Inventario'),
+        backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -38,13 +50,27 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _isLoading ? null : _fetchProductData,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.teal, // Set the button color
-                onPrimary: Colors.white, // Set the text color
-              ),
-              child: Text('Buscar'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _searchProducts,
+                    decoration: InputDecoration(
+                      labelText: 'Buscar por nombre',
+                    ),
+                  ),
+                ),
+                SizedBox(width: 16.0),
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _fetchProductData,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.teal,
+                    onPrimary: Colors.white,
+                  ),
+                  child: Text('Buscar'),
+                ),
+              ],
             ),
             SizedBox(height: 16.0),
             _isLoading

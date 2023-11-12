@@ -10,43 +10,54 @@ class ProductCardWidget extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'ID: ${productData['id']}',
-              style: TextStyle(
-                fontSize: 16.0,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildRow('Nombre', productData['name']),
+                  buildRow('Descripción', productData['description']),
+                  buildRow('Ubicación', productData['shelf']),
+                  buildRow('Stock', productData['stock'].toString()),
+                ],
               ),
             ),
-            SizedBox(height: 8.0),
-            Text(
-              'Name: ${productData['name']}',
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Description: ${productData['description']}',
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Shelf: ${productData['shelf']}',
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Stock: ${productData['stock']}',
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Stock Notification: ${productData['stock_notification']}',
-            ),
-            SizedBox(height: 8.0),
-            Text(
-              'Existence Notification: ${productData['existence_notification']}',
+            SizedBox(width: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                buildIcon(Icons.edit, Colors.blue, () {
+                  // Lógica para editar el producto
+                }),
+                SizedBox(width: 8.0),
+                buildIcon(Icons.delete, Colors.red, () {
+                  // Lógica para eliminar el producto
+                }),
+              ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildRow(String label, String value) {
+    return Row(
+      children: [
+        Text('$label: ', style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(value),
+      ],
+    );
+  }
+
+  Widget buildIcon(IconData icon, Color color, VoidCallback onPressed) {
+    return IconButton(
+      onPressed: onPressed,
+      icon: Icon(icon),
+      color: color,
     );
   }
 }
