@@ -1,7 +1,8 @@
 // scrape_product_model.dart
 import 'package:flutter/material.dart';
 
-class ProductModel {
+class GetProductModel {
+  final int id;
   final String name;
   final String description;
   final String shelf;
@@ -9,7 +10,8 @@ class ProductModel {
   final bool stock_notification;
   final bool existence_notification;
 
-  ProductModel({
+  GetProductModel({
+    required this.id,
     required this.name,
     required this.description,
     required this.shelf,
@@ -20,6 +22,7 @@ class ProductModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'description': description,
       'shelf': shelf,
@@ -31,6 +34,6 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel { name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
+    return 'GetProductModel { id: $id, name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
   }
 }

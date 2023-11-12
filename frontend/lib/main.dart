@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/src/ui/screens/scrape_products_screen.dart';
 import 'package:frontend/src/ui/screens/products_screen.dart';
+import 'package:frontend/src/ui/screens/show_products_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -78,6 +80,17 @@ class MyHomePage extends StatelessWidget {
                 );
               },
             ),
+            ListTile(
+              leading: Icon(Icons.web),
+              title: Text('Inventario'),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => GetProductsScreen(),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
