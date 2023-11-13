@@ -24,7 +24,6 @@ class ProductRepository {
       // Puedes mostrar un mensaje de error al usuario.
     }
   }
-}
 
 
   Future<void> updateProduct(
@@ -106,4 +105,5 @@ class ProductRepository {
       return [];
     }
   }
+
 }
