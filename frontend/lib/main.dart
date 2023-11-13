@@ -17,32 +17,22 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         primaryColor: Colors.teal,
       ),
-      home: MyHomePage(title: 'Inicio'),
+      home: MyHomePage(), // Página de inicio con la pantalla de inventario
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text('Inventario'),
         backgroundColor: Colors.teal,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Your content goes here
-          ],
-        ),
-      ),
-      backgroundColor: Colors.white,
+      body: GetProductsScreen(), // Contenido de la pantalla de inventario
       drawer: Drawer(
         child: ListView(
           children: [
@@ -81,14 +71,10 @@ class MyHomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.web),
+              leading: Icon(Icons.inventory),
               title: Text('Inventario'),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => GetProductsScreen(),
-                  ),
-                );
+                Navigator.of(context).pop(); // Cerrar el drawer si se selecciona la página actual
               },
             )
           ],

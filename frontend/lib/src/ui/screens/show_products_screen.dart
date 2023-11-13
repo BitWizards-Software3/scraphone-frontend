@@ -41,10 +41,6 @@ class _GetProductsScreenState extends State<GetProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Inventario'),
-        backgroundColor: Colors.teal,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
