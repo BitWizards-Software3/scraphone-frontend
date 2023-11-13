@@ -34,7 +34,10 @@ class _FormWidgetState extends State<FormWidget> {
         children: <Widget>[
           TextFormField(
             controller: widget.nameController,
-            decoration: InputDecoration(labelText: 'Nombre'),
+            decoration: InputDecoration(
+              labelText: 'Nombre',
+              border: OutlineInputBorder(),
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor, ingresa el nombre';
@@ -42,9 +45,13 @@ class _FormWidgetState extends State<FormWidget> {
               return null;
             },
           ),
+          SizedBox(height: 12.0),
           TextFormField(
             controller: widget.descriptionController,
-            decoration: InputDecoration(labelText: 'Descripción'),
+            decoration: InputDecoration(
+              labelText: 'Descripción',
+              border: OutlineInputBorder(),
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor, ingresa la descripción';
@@ -52,9 +59,13 @@ class _FormWidgetState extends State<FormWidget> {
               return null;
             },
           ),
+          SizedBox(height: 12.0),
           TextFormField(
             controller: widget.shelfController,
-            decoration: InputDecoration(labelText: 'Estante'),
+            decoration: InputDecoration(
+              labelText: 'Estante',
+              border: OutlineInputBorder(),
+            ),
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor, ingresa en donde está ubicado el producto';
@@ -62,9 +73,13 @@ class _FormWidgetState extends State<FormWidget> {
               return null;
             },
           ),
+          SizedBox(height: 12.0),
           TextFormField(
             controller: widget.stockController,
-            decoration: InputDecoration(labelText: 'Stock'),
+            decoration: InputDecoration(
+              labelText: 'Stock',
+              border: OutlineInputBorder(),
+            ),
             keyboardType: TextInputType.number,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -73,32 +88,28 @@ class _FormWidgetState extends State<FormWidget> {
               return null;
             },
           ),
-          Row(
-            children: [
-              Text('Notificación de Stock:'),
-              Switch(
-                value: stockNotification,
-                onChanged: (value) {
-                  setState(() {
-                    stockNotification = value;
-                  });
-                },
-              ),
-            ],
+          SizedBox(height: 12.0),
+          SwitchListTile(
+            title: Text('Notificación de Stock'),
+            value: stockNotification,
+            onChanged: (value) {
+              setState(() {
+                stockNotification = value;
+              });
+            },
+            activeColor: Colors.teal,
           ),
-          Row(
-            children: [
-              Text('Notificación de Existencia:'),
-              Switch(
-                value: existenceNotification,
-                onChanged: (value) {
-                  setState(() {
-                    existenceNotification = value;
-                  });
-                },
-              ),
-            ],
+          SwitchListTile(
+            title: Text('Notificación de Existencia'),
+            value: existenceNotification,
+            onChanged: (value) {
+              setState(() {
+                existenceNotification = value;
+              });
+            },
+            activeColor: Colors.teal,
           ),
+          SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () {
               if (widget.formKey.currentState!.validate()) {
@@ -115,10 +126,22 @@ class _FormWidgetState extends State<FormWidget> {
                 widget.formKey.currentState!.reset();
               }
             },
-            child: Text('Crear Usuario'),
+            style: ElevatedButton.styleFrom(
+              primary: Colors.teal,
+              onPrimary: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            child: Text('Crear Producto'),
           ),
         ],
       ),
     );
   }
 }
+
+
+
+

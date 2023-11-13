@@ -1,4 +1,3 @@
-// product_card_widget.dart
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,9 +17,10 @@ class ProductCardWidget extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildProductImage(productImage),
-              SizedBox(width: 16.0), // Espacio entre imagen y texto
+              SizedBox(width: 16.0),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,9 +32,11 @@ class ProductCardWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    SizedBox(height: 8.0),
                     Text(
                       'Precio en COP: ${productData['Price']}',
                     ),
+                    SizedBox(height: 8.0),
                     Text(
                       'Comprar en: ${_obtenerPagina(productLink)}',
                     ),
@@ -60,21 +62,25 @@ class ProductCardWidget extends StatelessWidget {
   }
 
   Widget _buildProductImage(String productImage) {
-    try {
-      return Image.network(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.0),
+      child: Image.network(
         productImage,
         width: 100,
         height: 100,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
-          return Icon(
-              Icons.error); // Puedes cambiar esto a una imagen de reemplazo
+          return Container(
+            width: 100,
+            height: 100,
+            color: Colors.grey[300],
+            child: Center(
+              child: Icon(Icons.error),
+            ),
+          );
         },
-      );
-    } catch (e) {
-      print('Error al cargar la imagen: $e');
-      return Icon(Icons.error); // Devuelve un icono de error en caso de error
-    }
+      ),
+    );
   }
 
   String _obtenerPagina(String link) {

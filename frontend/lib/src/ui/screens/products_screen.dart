@@ -14,13 +14,15 @@ class _ProductFormState extends State<ProductForm> {
   final descriptionController = TextEditingController();
   final stockController = TextEditingController();
   final shelfController = TextEditingController();
-  final productRepository = ProductRepository(); // Create an instance of UserRepository
+  final productRepository =
+      ProductRepository(); // Create an instance of UserRepository
 
   void _submitForm(ProductModel ProductData) async {
     print('Datos del producto a enviar: $ProductData');
 
     try {
-      await productRepository.createProduct(ProductData); // Use the UserRepository to create a user
+      await productRepository.createProduct(
+          ProductData); // Use the UserRepository to create a user
       // Handle the success response if needed
       print('Producto creado exitosamente');
     } catch (error) {
@@ -36,6 +38,7 @@ class _ProductFormState extends State<ProductForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Crear producto'),
+        backgroundColor: Colors.teal, // Set the app bar color
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

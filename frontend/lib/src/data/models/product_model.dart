@@ -18,7 +18,7 @@ class ProductModel {
     required this.existence_notification,
   });
 
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'description': description,
@@ -29,8 +29,8 @@ class ProductModel {
     };
   }
 
-    @override
+  @override
   String toString() {
-    return 'ProductModel { name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
+    return 'ProductModel {name: $name, description: $description, shelf: $shelf, stock: $stock, stock_notification: $stock_notification, existence_notification: $existence_notification }';
   }
 }
